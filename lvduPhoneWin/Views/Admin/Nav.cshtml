@@ -1,0 +1,117 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Nav</title>
+    <!-- jquery -->
+    <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+
+    <!-- vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+
+    <!-- bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <style>
+        .w-20{
+            width:20%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <nav class="navbar navbar-expand-lg navbar-light alert-success">
+            <a class="navbar-brand" href="#">绿都大酒店</a>
+            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse collapse" id="navbarColor03" style="">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/Admin/Nav">分类管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Admin/Index">菜品管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Admin/upLoad">上传文件</a>
+                    </li>
+
+                </ul>
+
+            </div>
+        </nav>
+
+
+
+        <div id="app">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center" style="width:100px">#</th>
+                        <th scope="col" class="text-center" style="width:340px">id</th>
+                        <th scope="col" class="text-center" style="width:100px">名称</th>
+                        <th scope="col" class="text-center" style="width:100px">链接地址</th>
+                        <th scope="col" class="text-center" style="width:100px">
+                            <a class="btn btn-outline-success btn-small text-success" target="_blank" href="/Admin/addNav/">增加新分类</a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,index) in nav">
+                        <td class="text-center w-20">{{index}}</td>
+                        <td class="text-center w-20">{{item.id}}</td>
+                        <td class="text-center w-20">{{item.name}}</td>
+                        <td class="text-center w-20">{{item.href}}</td>
+                        <td class="text-center">
+                            <a class="btn btn-outline-success btn-small text-success" target="_blank" :href="'/Admin/ModifyNav/'+item.id">修改</a>
+                            <button @@click="_delete(item)" class="btn btn-outline-success btn-small">删除</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+        </div>
+    </div>
+    <script src="/js/plug-in.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                nav: []
+            },
+            methods: {
+                _delete(item) {
+                    $.post("/Admin/deleteNav", { id: item.id }, (data) => {
+                        $.Pop(data, "alert", function () {
+                            location.href = "/Admin/nav";
+                        });
+                    });
+
+                }
+
+            },
+            computed: {
+
+            },
+            mounted() {
+                $.post("/Admin/getNav", (data) => {
+                    for (var i in data) {
+                        this.nav.push(data[i]);
+                    }
+                });
+            }
+        })
+    </script>
+
+</body>
+</html>

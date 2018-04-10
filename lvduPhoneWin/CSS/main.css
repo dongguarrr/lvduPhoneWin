@@ -1,0 +1,133 @@
+﻿html, body {
+    height: 100%;
+}
+
+#lunbo img {
+    height: 150px;
+}
+
+#app {
+    height: 100%;
+}
+
+.row {
+    height: 100%;
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    width: 100%;
+}
+
+.bgc {
+    height: 100%;
+}
+
+#nav {
+    background: lightgray;
+    padding: 0;
+    height: 100%;
+}
+
+ul {
+    padding-top: 10px;
+}
+
+li {
+    width: 100%;
+}
+
+.active {
+    color: blue !important;
+    background-color: white !important;
+}
+
+#basket {
+    background-color: white;
+    height: 10%;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+
+.goodimg {
+    height: 64px;
+    width: 64px;
+}
+
+img {
+    width: 64px;
+    height: 64px;
+}
+
+.modal-backdrop {
+    position: relative;
+}
+
+.bg-nav {
+    background-color: #bfbfbf;
+}
+
+
+.list-group-item {
+    background-color: #bfbfbf;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.p0 {
+    padding: 0 !important;
+}
+
+.m0 {
+    margin: 0 !important;
+}
+
+.pl0 {
+    padding-left: 0 !important;
+}
+
+.pr0 {
+    padding-right: 0 !important;
+}
+
+.pb0 {
+    padding-bottom: 0 !important;
+}
+
+.pt0 {
+    padding-top: 0 !important;
+}
+
+.ml0 {
+    padding-left: 0 !important;
+}
+
+.mr0 {
+    padding-right: 0 !important;
+}
+
+.mb0 {
+    padding-bottom: 0 !important;
+}
+
+.mt0 {
+    padding-top: 0 !important;
+}

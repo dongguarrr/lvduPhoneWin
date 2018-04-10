@@ -48,6 +48,10 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\LvDu\packages\Newtonsoft.Json.6.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -89,11 +93,80 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="admin\404.html" />
+    <Content Include="admin\assets\css\admin.css" />
+    <Content Include="admin\assets\css\amazeui.datatables.min.css" />
+    <Content Include="admin\assets\css\amazeui.min.css" />
+    <Content Include="admin\assets\css\app.css" />
+    <Content Include="admin\assets\css\fullcalendar.min.css" />
+    <Content Include="admin\assets\css\fullcalendar.print.css" />
+    <Content Include="admin\assets\img\a5.png" />
+    <Content Include="admin\assets\img\k.jpg" />
+    <Content Include="admin\assets\img\logo.png" />
+    <Content Include="admin\assets\img\logoa.png" />
+    <Content Include="admin\assets\img\logob.png" />
+    <Content Include="admin\assets\img\user01.png" />
+    <Content Include="admin\assets\img\user02.png" />
+    <Content Include="admin\assets\img\user03.png" />
+    <Content Include="admin\assets\img\user04.png" />
+    <Content Include="admin\assets\img\user05.png" />
+    <Content Include="admin\assets\img\user06.png" />
+    <Content Include="admin\assets\img\user07.png" />
+    <Content Include="admin\assets\i\app-icon72x72%402x.png" />
+    <Content Include="admin\assets\i\examples\admin-chrome.png" />
+    <Content Include="admin\assets\i\examples\admin-firefox.png" />
+    <Content Include="admin\assets\i\examples\admin-ie.png" />
+    <Content Include="admin\assets\i\examples\admin-opera.png" />
+    <Content Include="admin\assets\i\examples\admin-safari.png" />
+    <Content Include="admin\assets\i\examples\adminPage.png" />
+    <Content Include="admin\assets\i\examples\blogPage.png" />
+    <Content Include="admin\assets\i\examples\landing.png" />
+    <Content Include="admin\assets\i\examples\landingPage.png" />
+    <Content Include="admin\assets\i\examples\loginPage.png" />
+    <Content Include="admin\assets\i\examples\sidebarPage.png" />
+    <Content Include="admin\assets\i\favicon.png" />
+    <Content Include="admin\assets\i\startup-640x1096.png" />
+    <Content Include="admin\assets\js\amazeui.datatables.min.js" />
+    <Content Include="admin\assets\js\amazeui.min.js" />
+    <Content Include="admin\assets\js\app.js" />
+    <Content Include="admin\assets\js\dataTables.responsive.min.js" />
+    <Content Include="admin\assets\js\echarts.min.js" />
+    <Content Include="admin\assets\js\fullcalendar.min.js" />
+    <Content Include="admin\assets\js\jquery.min.js" />
+    <Content Include="admin\assets\js\moment.js" />
+    <Content Include="admin\assets\js\theme.js" />
+    <Content Include="admin\calendar.html" />
+    <Content Include="admin\chart.html" />
+    <Content Include="admin\form.html" />
+    <Content Include="admin\index.html" />
+    <Content Include="admin\login.html" />
+    <Content Include="admin\sign-up.html" />
+    <Content Include="admin\table-list-img.html" />
+    <Content Include="admin\table-list.html" />
+    <Content Include="admin\tables.html" />
+    <Content Include="CSS\IMGUP.css" />
+    <Content Include="CSS\main.css" />
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
+    <Content Include="img\icons.png" />
+    <Content Include="img\loading.gif" />
+    <Content Include="img\loading2.gif" />
+    <Content Include="img\购物车64.png" />
+    <Content Include="js\IMGUP.js" />
+    <Content Include="js\jquery.cookie.js" />
+    <Content Include="js\jQuery.print.js" />
+    <Content Include="js\plug-in.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PhoneController.cs" />
+    <Compile Include="dboUtils\DboUtils.cs" />
+    <Compile Include="Entity\nav.cs" />
+    <Compile Include="Entity\ordering.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -101,7 +174,28 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
+    <Content Include="admin\assets\css\app.less" />
+    <Content Include="admin\assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="admin\assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="admin\assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="admin\assets\fonts\fontawesome-webfont.woff2" />
+    <Content Include="admin\assets\fonts\FontAwesome.otf" />
+    <Content Include="admin\白色.psd" />
+    <Content Include="admin\黑色.psd" />
+    <Content Include="ajax\ImgUpLoad.ashx" />
     <None Include="packages.config" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\print.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Modify.cshtml" />
+    <Content Include="Views\Admin\Nav.cshtml" />
+    <Content Include="Views\Admin\ModifyNav.cshtml" />
+    <Content Include="Views\Admin\addNav.cshtml" />
+    <Content Include="Views\Admin\addGood.cshtml" />
+    <Content Include="Views\Phone\Index.cshtml" />
+    <Content Include="Views\Phone\getOrderSuccess.cshtml" />
+    <Content Include="Views\Admin\upLoad.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -111,8 +205,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
+    <Folder Include="image\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Search\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

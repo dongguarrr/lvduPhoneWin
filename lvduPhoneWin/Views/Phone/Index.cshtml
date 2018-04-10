@@ -1,0 +1,331 @@
+﻿
+@{
+    Layout = null;
+    String roomid = ViewBag.roomid;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>lvdu</title>
+
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/CSS/main.css" />
+
+
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+    <style>
+        .scrollspy-example {
+            position: relative;
+            height: 100vh;
+            margin-top: .5rem;
+            overflow: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div id="app">
+
+        <div class="input-group" style="margin-top:10px ;position:relative">
+            <input type="text" class="form-control" id="searchText" placeholder="请输入字段名" />
+            <span class="input-group-btn">
+                <button class="btn btn-info btn-search" @@click="search">查找</button>
+            </span>
+        </div>
+
+        <div class="row mt-3 h-100">
+            <div class="col-4 h-100 bg-nav pr-0">
+
+                <div id="list-example" class="list-group">
+                    <a class="list-group-item list-group-item-action px-0 border-0" :href="item.href" v-for="item in nav">{{item.name}}</a>
+                </div>
+                <div id="list-example" class="list-group">
+                    <a class="list-group-item list-group-item-action px-0 border-0" href="#searchResult"><span id="navSearchResult">搜索结果</span></a>
+                </div>
+            </div>
+
+            <div class="col-8" style="margin-bottom:100px">
+
+                <div data-spy="scroll" data-target="#list-example" data-offset="100" class="scrollspy-example">
+                    <div v-for="item in nav">
+                        <h4 :id="item.id">{{item.name}}</h4>
+                        <div class="media mr-3" v-for="sonItem in info" v-if="sonItem.upitem === item.id">
+                            <img class="align-self-center mr-3" :src="sonItem.img" :alt="sonItem.alt">
+                            <div class="media-body mt-3">
+                                <h5 class="mt-0">{{sonItem.name}}</h5>
+                                <h6>{{sonItem.describe}}</h6>
+                                <h5 class="float-left">￥{{sonItem.price}}</h5>
+                                <button @@click="addToBasket(sonItem)" class="btn btn-success btn-sm float-right mb-3">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="searchList.length !== 0">
+                        <h4 id="searchResult">搜索结果</h4>
+                        <div class="media mr-3" v-for="item in searchList">
+                            <img class="align-self-center mr-3" :src="item.img" :alt="item.alt">
+                            <div class="media-body mt-3">
+                                <h5 class="mt-0">{{item.name}}</h5>
+                                <h6>{{item.describe}}</h6>
+                                <h5 class="float-left">￥{{item.price}}</h5>
+                                <button @@click="addToBasket(item)" class="btn btn-success btn-sm float-right mb-3">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                </div>
+
+                
+            </div>
+        </div>
+
+        <div class="fixed-bottom bg-info">
+
+
+            <div class="card border-0" style="max-height:66vh">
+
+                <div class="card-header border-0 m0 p0" id="headingOne">
+                    <div class="d-flex">
+                        <div class="p-2 float-left">
+                            <h5 class="mb-0">
+                                <button id="btn" class="btn m0 p0 border-0" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                    <img src="../../img/购物车64.png" class="img-thumbnail bg-info border-0 p0" style="height: 64px;width: 64px;" />
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div class="p-2 float-left">
+                            <h1>{{"￥"+total}}</h1>
+                        </div>
+
+                        <div class="ml-auto">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                去结算
+                            </button>
+
+                            <!-- 模态框 -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">备注</h5>
+
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <input type="text" class="form-control" v-model="node" />
+                                            <label>{{msg}}</label>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                            <button @@click="createOrder" :disabled="isDisable" type="button" class="btn btn-primary">确定</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="collapseOne" class="collapse" style="height:50vh; overflow:scroll" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        <div v-if="baskets.length===0">
+                            <p>购物车内没有任何东西</p>
+                        </div>
+                        <table class="table" v-else>
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">菜品</th>
+                                    <th scope="col">单价</th>
+                                    <th scope="col">数量</th>
+                                    <th scope="col">总价</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item,index) in baskets">
+                                    <th scope="row">{{index+1}}</th>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.price}}</td>
+                                    <td>
+                                        <button @@click="decreaseQuantity(item)" class="btn btn-small btn-outline-success">-</button>
+                                        {{item.quantity}}
+                                        <button @@click="increaseQuantity(item)" class="btn btn-small btn-outline-success">+</button>
+                                    </td>
+                                    <td>{{(Number(item.price * item.quantity)).toFixed(2)}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+
+
+
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.cookie.js"></script>
+    <script>
+
+        new Vue({
+            el: "#app",
+            data: {
+                nav: [],
+                info: [],
+                baskets: [],
+                node: "",
+                msg: "",
+                isDisable: false,
+                _total: "",
+                searchList: [],
+                nodeCount:0
+            },
+            methods: {
+                search() {
+                    var _self = this;
+                    _self.searchList.length = 0;
+                    var searchText = $("#searchText").val();
+                    $.post("/phone/Search", { name: searchText }, function (data) {
+                        if (data != "error")
+                        {
+                            for (var i in data) {
+                                _self.searchList.push(data[i]);
+                            }
+                        }
+                        else
+                        {
+                            alert(data)
+                        }
+                        if (_self.searchList.length != 0) {
+                            $("#navSearchResult").click();
+                        }
+                    })
+                },
+               
+                addToBasket(item) {
+                    let basket = {
+                        id: item.id,
+                        upitem: item.upitem,
+                        name: item.name,
+                        price: item.price,
+                        quantity: 1
+                    }
+                    if (this.baskets.length > 0) {
+                        //过滤
+                        let result = this.baskets.filter((basket) => {
+                            return basket.id === item.id
+                        })
+                        if (result != null && result.length > 0) {
+                            result[0].quantity++
+                        } else {
+                            this.baskets.push(basket);
+                        }
+                    } else {
+                        this.baskets.push(basket)
+                    }
+                },
+                decreaseQuantity(item) {
+                    item.quantity--;
+                    if (item.quantity <= 0) {
+                        this.removeFromBasket(item);
+                    }
+                },
+                increaseQuantity(item) {
+
+                    item.quantity++
+                },
+                removeFromBasket(item) {
+                    this.baskets.splice(this.baskets.indexOf(item), 1)
+                },
+                createOrder() {
+                    if (!this.isDisable) {
+                        this.isDisable = true;
+                    } else {
+                        this.msg = "请勿重复提交订单";
+                    }
+
+                    var baskets = JSON.stringify(this.baskets);
+
+
+                    var orderid = this.GetOrderID();
+                    $.post("/phone/createOrder", { roomId: "1", ordering: baskets, orderingId: orderid, orderingState: "false", node: this.node, total: this._total }, (msg) => {
+                        if (msg) {
+                            console.log("成功");
+                            var str = JSON.stringify(this.baskets);
+                            console.log("----------------------------------------------------------------"+str)
+                            $.cookie("note", this.node,"/");
+                            $.cookie("cost", this._total,"/");
+                            $.cookie("orderid", this.orderid, "/");
+                            $.cookie("baskets", str, "/");
+                            console.log("----------------------------------------------------------------" + $.cookie("baskets"))
+                            location.href = "/phone/getOrderSuccess";
+                        } else {
+
+                        }
+                    })
+                },
+                GetOrderID() {
+                    let _lock;
+                    let count = 1;
+
+                    if (count >= 10000) {
+                        count = 1;
+                    }
+                    var number = "lvdu" + (new Date()).valueOf() + count;
+                    count++;
+                    return number;
+
+                }
+            },
+
+            computed: {
+                total() {
+                    let totalCost = 0;
+                    for (let index in this.baskets) {
+
+                        let item = this.baskets[index];
+                        var num = Number((item.quantity * item.price).toFixed(2));
+                        totalCost += num;
+                    }
+                    this._total = totalCost
+
+                    return totalCost.toFixed(2);
+                }
+            },
+            mounted() {
+                $.post("/phone/getNav", (data) => {
+                    for (var i in data) {
+                        this.nav.push(data[i]);
+                    }
+                });
+                $.post("/phone/getInfoAll", (data) => {
+                    for (var i in data) {
+                        this.info.push(data[i]);
+                    }
+                })
+            },
+        });
+    </script>
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,109 @@
+﻿
+@{
+    Layout = null;
+    List<lvduPhoneWin.Entity.good> good = ViewBag.good;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+
+    <!-- jquery -->
+    <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+
+    <!-- vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+
+    <!-- bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light alert-success">
+            <a class="navbar-brand" href="#">绿都大酒店</a>
+            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse collapse" id="navbarColor03" style="">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Admin/Nav">分类管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Admin/Index">菜品管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Admin/upLoad">上传文件</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div id="app">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center" style="width:100px">#</th>
+                        <th scope="col" class="text-center" style="width:340px">id</th>
+                        <th scope="col" class="text-center" style="width:100px">上级元素</th>
+                        <th scope="col" class="text-center" style="width:100px">图片</th>
+                        <th scope="col" class="text-center" style="width:100px">信息</th>
+                        <th scope="col" class="text-center" style="width:100px">单价</th>
+                        <th scope="col" class="text-center" style="width:150px">
+                            <a class="btn btn-outline-success btn-small text-success" href="/Admin/addGood/">增加新菜品</a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,index) in goods">
+                        <td class="text-center">{{index}}</td>
+                        <td class="text-center">{{item.id}}</td>
+                        <td class="text-center">{{item.upitem}}</td>
+                        <td class="text-center">{{item.img}}</td>
+                        <td class="text-center">{{item.info}}</td>
+                        <td class="text-center">{{item.price}}</td>
+                        <td class="text-center">
+                            <a class="btn btn-outline-success btn-small text-success" target="_blank" :href="'/Admin/Modify/'+item.id">修改</a>
+                            <button @@click="_delete(item)" class="btn btn-outline-success btn-small">删除</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="/js/plug-in.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                goods: []
+            },
+            methods: {
+                _delete(item) {
+                    $.post("/Admin/deleteGood", { id: item.id }, (data) => {
+                        $.Pop(data, "confirm", function () {
+                            location.href = "/admin/index"
+                        })
+                    });
+
+                }
+
+            },
+            computed: {
+
+            },
+            mounted() {
+                $.post("/Admin/getGood", (data) => {
+                    for (var i in data) {
+                        this.goods.push(data[i]);
+                    }
+                });
+            }
+        })
+    </script>
+</body>
+</html>
